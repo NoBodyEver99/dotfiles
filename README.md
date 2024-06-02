@@ -1,5 +1,8 @@
 # My .dotfiles for Arch Linux
 
+![License](https://img.shields.io/github/license/NoBodyEver99/dotfiles)
+![GitHub last commit](https://img.shields.io/github/last-commit/NoBodyEver99/dotfiles)
+
 Welcome to my .dotfiles repository! Here you will find all the customizations and configurations I use for my Arch Linux system.
 
 ## Contents
