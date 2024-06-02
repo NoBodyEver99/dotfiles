@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cpu_percentage=$(top -bn 1 | grep "%Cpu(s):" | awk '{print $2}')
+
+printf "CPU $cpu_percentage"

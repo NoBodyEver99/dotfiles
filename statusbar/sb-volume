@@ -1,0 +1,11 @@
+#!/bin/sh
+
+volume=$(amixer sget Master | awk -F"[][]" '/Left:/ { print $2 }')
+if [ "$volume" -lt 33 ]; then
+  printf "󰕿  "
+elif [ "$volume" -lt 66 ]; then
+  printf "󰖀  "
+else
+  printf "󰕾  "
+fi
+printf "$volume"

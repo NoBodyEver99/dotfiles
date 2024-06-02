@@ -1,0 +1,6 @@
+#!/bin/sh
+
+track_info="$(media-control track)"
+progress="$(media-control progress)"
+
+printf "$track_info $progress"

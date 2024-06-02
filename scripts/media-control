@@ -1,0 +1,95 @@
+#!/bin/sh
+
+players=$(playerctl -l)
+
+dedent() {
+  local -n reference="$1"
+  reference="$(echo "$reference" | sed 's/^[[:space:]]*//')"
+}
+
+function getActivePlayer() {
+  local active_player=""
+
+  for player in $players; do
+    status=$(playerctl -p "$player" status)
+    
+    if [ "$status" == "Playing" ]; then
+      active_player="$player"
+      break 
+    elif [[ "$status" == "Paused" && "$active_player" == "" ]]; then
+      active_player="$player"
+    fi
+  done
+
+  echo $active_player
+}
+
+function printHelp() {
+  text="media-control command [options]\n
+        Available Commands:
+          track                 Print information for the current track
+          toggle                Play/Pause current track
+          next                  Skip to the next track
+          prev                  Skip to the previous track
+          forward               Add +5 to position
+          backward              Subtract -5 from position
+          volume                Get volume percentage
+          progress              Get track position and duration
+        \n"
+  dedent text
+  printf "$text"
+}
+
+player=$(getActivePlayer)
+
+case "$1" in
+  "track")
+    echo "$(playerctl -p "$player" metadata --format "{{artist}} - {{title}}")"
+    exit
+    ;;
+  "toggle")
+    status=$(playerctl -p "$player" status)
+    
+    if [ "$status" == "Playing" ]; then
+      playerctl -p "$player" pause
+      exit
+    elif [ "$status" == "Paused" ]; then
+      playerctl -p "$player" play
+      exit
+    fi
+    exit
+    ;;
+  "next")
+    playerctl -p "$player" next
+    exit
+    ;;
+  "prev")
+    playerctl -p "$player" previous
+    exit
+    ;;
+  "forward")
+    playerctl -p "$player" position 5+
+    exit
+    ;;
+  "backward")
+    playerctl -p "$player" position 5-
+    exit
+    ;;
+  "volume")
+    volume=$(playerctl -p "$player" volume)
+    echo "Громкость: $volume%"
+    exit
+    ;;
+  "progress")
+    duration=$(playerctl -p "$player" metadata --format "{{ duration(mpris:length) }}")
+    position=$(playerctl -p "$player" position --format "{{ duration(position) }}")
+    echo "[$position/$duration]"
+    exit
+    ;;
+  "help" | *)
+    printHelp
+    exit
+    ;;
+esac
+
+echo ""

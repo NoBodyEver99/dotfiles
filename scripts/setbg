@@ -1,0 +1,8 @@
+#!/bin/sh
+
+file=$(find ~/.dotfiles/assets/wallpapers/ -type f | shuf -n1) 
+wal -i $1 # $file 
+color2x 
+xrdb -merge ~/.Xresources 
+xdotool key shift+Super+F5
+

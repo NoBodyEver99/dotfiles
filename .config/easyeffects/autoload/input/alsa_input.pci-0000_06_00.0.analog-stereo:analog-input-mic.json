@@ -1,0 +1,6 @@
+{
+    "device": "alsa_input.pci-0000_06_00.0.analog-stereo",
+    "device-description": "CA0106/CA0111 [SB Live!/Audigy/X-Fi Series] (SB0570 [SB Audigy SE]) Аналоговый стерео",
+    "device-profile": "analog-input-mic",
+    "preset-name": "Acoustic Guitar With Vocal (2)"
+}
